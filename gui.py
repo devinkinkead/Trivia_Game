@@ -1,4 +1,4 @@
-# Devin Kinkead
+# Devin Kinkead CIS345 12:00pm Project (final)
 import questions
 from difflib import get_close_matches
 from tkinter import *
