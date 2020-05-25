@@ -7,8 +7,6 @@ from PIL import Image, ImageTk
 
 window = Tk()
 window.title("Mental Anguish")
-# Geometry determined in functions
-# window.geometry('800x250')
 
 
 def add_question_start():
@@ -46,7 +44,6 @@ def question_maker(text, value, answer_var, choice_lst, c_feedback_var, i_feedba
     temp = questions.Question(text, value, answer1, choices, c_feedback_var, i_feedback_var)
     prepped = questions.question_prep_save(temp)
     quests = questions.load_questions()
-
     # Check for presence of prepped question in current question list
     for q in quests:
         if q['text'] == prepped['text']:
@@ -62,7 +59,6 @@ def question_maker(text, value, answer_var, choice_lst, c_feedback_var, i_feedba
     questions.save_questions(quests)
 
     clear_entries()
-    # Label(text="Question Added").grid(row=10, column=0)
     main_menu()
 
 
@@ -99,7 +95,7 @@ def clear_entries():
 def edit_question_start():
     """Start the edit question menu"""
     global list_box, question_text, question_value, choice_1, choice_2, choice_3, choice_4, answer, c_feedback, \
-        i_feedback
+        i_feedback, list_q
     window.geometry('800x600')
     s_question = list_box.selection_get()
     data = questions.load_questions()
@@ -134,6 +130,7 @@ def view_question():
     global list_q, list_box
     list_box.delete(0, END)
     data = questions.load_questions()
+
     list_q = questions.question_prep_load(data)
 
     for q in list_q:
@@ -174,8 +171,6 @@ def search():
         if len(result_temp) > 0:
             results_list.append(k)
 
-    # results_list = get_close_matches(search_term.get(), q_text_list, cutoff=0.45)
-
     list_box_search.delete('0', 'end')
     for result in results_list:
         list_box_search.insert(END,result)
@@ -204,7 +199,6 @@ def play_game():
     q_count = 3
     total = 0
     total_points.set(f'Point Total: {total}')
-    # question_text.set(list_q[question_quiz_list[0]])
     for q in question_quiz_list:
         question_given = list_q[q]
         question_progress.set(f'{q_count}/3 questions left')
@@ -325,7 +319,7 @@ edit_frame = Frame(window)
 search_frame = Frame(window)
 list_box_frame_search = Frame(search_frame)
 quiz_frame = Frame(window)
-
+error_frame = Frame(window)
 correct_frame = Frame(window)
 incorrect_frame = Frame(window)
 game_end_frame = Frame(window)

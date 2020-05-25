@@ -23,6 +23,7 @@ class Question:
         self.answer = answer
         self.correct_feedback = c_feedback
         self.incorrect_feedback = i_feedback
+
     @property
     def q_text(self):
         return self.__q_text
@@ -124,9 +125,12 @@ def save_questions(questions):
     :param questions: List of dictionaries with the question data to be encoded
     :return: None
     """
-    with open('questions.json', 'w') as fp:
-        json.dump(questions, fp)
-
+    try:
+        with open('questions.json', 'w') as fp:
+            json.dump(questions, fp)
+    except FileNotFoundError:
+        print("Data File not Found. Closing Program")
+        exit()
 
 
 def load_questions():
@@ -134,10 +138,15 @@ def load_questions():
     Loads the questions from a json file
     :return: s - decoded list of dictionaries with question data
     """
-    with open('questions.json') as fp:
-        questions = json.load(fp)
-    # print(s)
-    return questions
+    try:
+        with open('questions.json') as fp:
+            questions = json.load(fp)
+        # print(s)
+        return questions
+
+    except FileNotFoundError:
+        print("Data File not Found. Closing Program")
+        exit()
 
 
 def question_prep_save(question):
@@ -187,7 +196,6 @@ def question_remove(question_lst, q):
     count2 = 0
     for question in question_lst:
         if question.__str__() == q:
-            # removed = question_lst.pop(count)
             question_file_lst = load_questions()
             for file_question in question_file_lst:
                 if file_question['text'] == q:
